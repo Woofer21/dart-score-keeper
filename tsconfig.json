@@ -13,9 +13,9 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowArbitraryExtensions": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowArbitraryExtensions": true,
 		"plugins": [
 			{
 				"name": "next"
@@ -23,8 +23,8 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-      "@/ui/*": ["./src/components/ui/*"],
-      "@/utils": ["./src/lib/utils.ts"]
+			"@/ui/*": ["./src/components/ui/*"],
+			"@/utils": ["./src/lib/utils.ts"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
