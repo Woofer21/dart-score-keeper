@@ -44,7 +44,7 @@ export default function AddPlayers() {
 							<h3>{player.name}</h3>
 						</CardHeader>
 
-						<CardContent className="flex flex-col gap-2 items-center"></CardContent>
+						<CardContent className="flex flex-col gap-2 items-center" />
 
 						<CardFooter className="flex flex-row items-center justify-center gap-2 w-full">
 							<Popover>
@@ -167,6 +167,7 @@ function ColorOptions({
 					className="w-6 h-6 rounded-md cursor-pointer flex items-center justify-center"
 					style={{ backgroundColor: color }}
 					onClick={() => updatePlayerColor(playerId, color)}
+					onKeyDown={() => updatePlayerColor(playerId, color)}
 				>
 					{currentColor.toLowerCase() === color.toLowerCase() && (
 						<Check className="size-4 text-background" />

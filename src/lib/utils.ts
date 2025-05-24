@@ -11,8 +11,8 @@ export function randomColor() {
 	let hexCode = randomNum.toString(16);
 
 	while (hexCode.length < 6) {
-		hexCode = "0" + hexCode;
+		hexCode = `0${hexCode}`;
 	}
 
-	return "#" + hexCode;
+	return `#${hexCode}`;
 }

@@ -56,7 +56,10 @@ export default function Spaces() {
 						/>
 						{points.map((_, i) => (
 							<ScoreButton
-								key={i}
+								key={`point-${
+									// biome-ignore lint/suspicious/noArrayIndexKey: No other data to go off of
+									i
+								}`}
 								score={i}
 								selected={selected}
 								onClick={() => setSelected(i)}

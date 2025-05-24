@@ -8,7 +8,7 @@ import {
 	CollapsibleTrigger
 } from "@/components/ui/collapsible";
 import useGameStore from "@/stores/game-store";
-import { Stepper } from "@stepperize/react";
+import type { Stepper } from "@stepperize/react";
 import { ChevronDown, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -45,6 +45,7 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 							<div
 								className="p-2 rounded-md hover:bg-muted/50 transition-all cursor-pointer"
 								onClick={() => methods.goTo("step-1")}
+								onKeyDown={() => methods.goTo("step-1")}
 							>
 								<Edit className="size-6" />
 							</div>
@@ -75,6 +76,7 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 						<div
 							className="p-2 rounded-md hover:bg-muted/50 transition-all cursor-pointer"
 							onClick={() => methods.goTo("step-2")}
+							onKeyDown={() => methods.goTo("step-2")}
 						>
 							<Edit className="size-6" />
 						</div>

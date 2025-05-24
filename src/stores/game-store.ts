@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { GameState, GameStore, Round } from "@/types/gameTypes";
+import type { GameState, GameStore, Round } from "@/types/gameTypes";
 import { v4 as uuid } from "uuid";
 import { randomColor } from "@/lib/utils";
 
