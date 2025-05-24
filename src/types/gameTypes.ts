@@ -8,6 +8,7 @@ export interface Round {
 	dart2: Dart;
 	dart3: Dart;
 	totalScore: number;
+	bust: boolean;
 }
 
 export interface Player {

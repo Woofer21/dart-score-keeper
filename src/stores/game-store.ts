@@ -73,7 +73,9 @@ const useGameStore = create<GameStore>((set) => ({
 				player.id === playerId
 					? {
 							...player,
-							score: player.score - round.totalScore,
+							score: round.bust
+								? player.score
+								: player.score - round.totalScore,
 							rounds: [...player.rounds, round]
 						}
 					: player

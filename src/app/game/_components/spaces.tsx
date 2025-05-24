@@ -49,7 +49,8 @@ export default function Spaces() {
 				dart1: newScores[0],
 				dart2: newScores[1],
 				dart3: newScores[2],
-				totalScore: newTotalScore
+				totalScore: newTotalScore,
+				bust: currentPlayer.score - newTotalScore < 0
 			});
 			setNextPlayer();
 
