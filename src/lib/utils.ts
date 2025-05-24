@@ -6,13 +6,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function randomColor() {
-  const randomNum = Math.floor(Math.random() * 16777216);
-  
-  let hexCode = randomNum.toString(16);
+	const randomNum = Math.floor(Math.random() * 16777216);
 
-  while (hexCode.length < 6) {
-    hexCode = '0' + hexCode;
-  }
+	let hexCode = randomNum.toString(16);
 
-  return '#' + hexCode;
+	while (hexCode.length < 6) {
+		hexCode = "0" + hexCode;
+	}
+
+	return "#" + hexCode;
 }

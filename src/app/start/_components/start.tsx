@@ -2,7 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger
+} from "@/components/ui/collapsible";
 import useGameStore from "@/stores/game-store";
 import { Stepper } from "@stepperize/react";
 import { ChevronDown, Edit } from "lucide-react";
@@ -23,7 +27,9 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 		<div className="space-y-2">
 			<div className="flex flex-col gap-2">
 				<h2 className="text-2xl">Review & Start Game</h2>
-				<p className="text-muted-foreground">All the settings look good? Start the game!</p>
+				<p className="text-muted-foreground">
+					All the settings look good? Start the game!
+				</p>
 			</div>
 
 			<div className="space-y-2">
@@ -47,7 +53,11 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 					</CollapsibleTrigger>
 					<CollapsibleContent className="flex flex-row gap-2 p-2">
 						{state.players.map((player) => (
-							<Card className="px-3" key={player.id} style={{ borderColor: player.color }}>
+							<Card
+								className="px-3"
+								key={player.id}
+								style={{ borderColor: player.color }}
+							>
 								<CardTitle>{player.name}</CardTitle>
 							</Card>
 						))}
@@ -58,7 +68,9 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 					<CollapsibleTrigger className="w-full p-3 text-left flex flex-row items-center justify-between gap-2 group">
 						<div>
 							Game Settings <br />
-							<span className="text-muted-foreground">Score - {state.startingScore},</span>
+							<span className="text-muted-foreground">
+								Score - {state.startingScore},
+							</span>
 						</div>
 						<div
 							className="p-2 rounded-md hover:bg-muted/50 transition-all cursor-pointer"
@@ -72,4 +84,3 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 		</div>
 	);
 }
-

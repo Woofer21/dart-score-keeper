@@ -1,9 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
 import clsx from "clsx";
 import { Clock2, Clock3, Clock4, ClockFading } from "lucide-react";
@@ -25,7 +34,7 @@ export default function GameSettings() {
 			<div className="grid grid-cols-3 gap-2">
 				<Card
 					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 101,
+						"border-green-500 bg-green-500/10": startingScore === 101
 					})}
 					onClick={() => initGameScore(101)}
 				>
@@ -37,7 +46,7 @@ export default function GameSettings() {
 
 				<Card
 					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 201,
+						"border-green-500 bg-green-500/10": startingScore === 201
 					})}
 					onClick={() => initGameScore(201)}
 				>
@@ -49,7 +58,7 @@ export default function GameSettings() {
 
 				<Card
 					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 301,
+						"border-green-500 bg-green-500/10": startingScore === 301
 					})}
 					onClick={() => initGameScore(301)}
 				>
@@ -64,14 +73,18 @@ export default function GameSettings() {
 						<Card
 							className={clsx("cursor-pointer", {
 								"border-green-500 bg-green-500/10":
-									startingScore !== 301 && startingScore !== 201 && startingScore !== 101,
+									startingScore !== 301 &&
+									startingScore !== 201 &&
+									startingScore !== 101
 							})}
 						>
 							<CardContent className="flex flex-col gap-2 items-center">
 								<ClockFading className="size-14" />
 								<p>
 									Custom
-									{startingScore === 301 || startingScore === 201 || startingScore === 101
+									{startingScore === 301 ||
+									startingScore === 201 ||
+									startingScore === 101
 										? null
 										: ` - ${startingScore}`}
 								</p>
@@ -85,7 +98,10 @@ export default function GameSettings() {
 							onChange={(e) => setCustomScore(Number(e.target.value))}
 							type="number"
 						/>
-						<Button variant={"outline"} onClick={() => initGameScore(customScore)}>
+						<Button
+							variant={"outline"}
+							onClick={() => initGameScore(customScore)}
+						>
 							Set Score
 						</Button>
 					</PopoverContent>

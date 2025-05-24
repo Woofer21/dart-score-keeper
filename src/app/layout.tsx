@@ -8,27 +8,29 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
-	subsets: ["latin"],
+	subsets: ["latin"]
 });
 
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
-	subsets: ["latin"],
+	subsets: ["latin"]
 });
 
 export const metadata: Metadata = {
 	title: "Dart Score Keeper",
-	description: "Quick and easy way to keep track of your dart scores",
+	description: "Quick and easy way to keep track of your dart scores"
 };
 
 export default function RootLayout({
-	children,
+	children
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-[90vh]`}>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-[90vh]`}
+			>
 				<TooltipProvider>
 					<nav className="flex flex-row items-center justify-around gap-2 p-2 border border-transparent border-b-border">
 						<Link href={"/"}>
@@ -38,7 +40,10 @@ export default function RootLayout({
 							<Link href={"#"}>
 								<Button variant={"ghost"}>Statistics</Button>
 							</Link>
-							<Button variant={"ghost"} size={"icon"}>
+							<Button
+								variant={"ghost"}
+								size={"icon"}
+							>
 								<Moon className="size-4" />
 							</Button>
 						</div>
@@ -52,4 +57,3 @@ export default function RootLayout({
 		</html>
 	);
 }
-

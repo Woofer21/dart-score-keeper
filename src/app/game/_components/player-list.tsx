@@ -2,7 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
+} from "@/components/ui/tooltip";
 import useGameStore from "@/stores/game-store";
 import { History } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -26,7 +30,10 @@ export default function PlayerList() {
 					<div>
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<Button size={"icon"} variant={"outline"}>
+								<Button
+									size={"icon"}
+									variant={"outline"}
+								>
 									<History />
 								</Button>
 							</TooltipTrigger>
@@ -38,4 +45,3 @@ export default function PlayerList() {
 		</div>
 	);
 }
-

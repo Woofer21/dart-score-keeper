@@ -33,7 +33,10 @@ export default function StartPage() {
 						<>
 							<Stepper.Navigation>
 								{methods.all.map((step) => (
-									<Stepper.Step of={step.id} key={step.id}>
+									<Stepper.Step
+										of={step.id}
+										key={step.id}
+									>
 										<Stepper.Title>{step.name}</Stepper.Title>
 									</Stepper.Step>
 								))}
@@ -42,12 +45,16 @@ export default function StartPage() {
 							{methods.switch({
 								"step-1": (step) => <AddPlayers />,
 								"step-2": (step) => <GameSettings />,
-								"step-3": (step) => <StartGame methods={methods} />,
+								"step-3": (step) => <StartGame methods={methods} />
 							})}
 
 							<Stepper.Controls>
 								{!methods.isLast && (
-									<Button variant="secondary" onClick={methods.prev} disabled={methods.isFirst}>
+									<Button
+										variant="secondary"
+										onClick={methods.prev}
+										disabled={methods.isFirst}
+									>
 										Previous
 									</Button>
 								)}
@@ -65,4 +72,3 @@ export default function StartPage() {
 		</main>
 	);
 }
-

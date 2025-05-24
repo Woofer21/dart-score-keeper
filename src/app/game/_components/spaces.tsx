@@ -24,7 +24,12 @@ export default function Spaces() {
 							variant={multiplier === 2 ? "default" : "outline"}
 							onClick={() => setMultiplier((prev) => (prev === 2 ? 1 : 2))}
 							className="w-full text-xl py-8"
-							disabled={selected === -2 || selected === -1 || selected === 25 || selected === 50}
+							disabled={
+								selected === -2 ||
+								selected === -1 ||
+								selected === 25 ||
+								selected === 50
+							}
 						>
 							Double
 						</Button>
@@ -32,25 +37,50 @@ export default function Spaces() {
 							variant={multiplier === 3 ? "default" : "outline"}
 							onClick={() => setMultiplier((prev) => (prev === 3 ? 1 : 3))}
 							className="w-full text-xl py-8"
-							disabled={selected === -2 || selected === -1 || selected === 25 || selected === 50}
+							disabled={
+								selected === -2 ||
+								selected === -1 ||
+								selected === 25 ||
+								selected === 50
+							}
 						>
 							Triple
 						</Button>
 					</div>
 
 					<div className="grid grid-cols-4 gap-2">
-						<ScoreButton score={-1} selected={selected} onClick={() => setSelected(-1)} />
+						<ScoreButton
+							score={-1}
+							selected={selected}
+							onClick={() => setSelected(-1)}
+						/>
 						{points.map((_, i) => (
-							<ScoreButton key={i} score={i} selected={selected} onClick={() => setSelected(i)} />
+							<ScoreButton
+								key={i}
+								score={i}
+								selected={selected}
+								onClick={() => setSelected(i)}
+							/>
 						))}
-						<ScoreButton score={25} selected={selected} onClick={() => setSelected(25)} />
-						<ScoreButton score={50} selected={selected} onClick={() => setSelected(50)} />
+						<ScoreButton
+							score={25}
+							selected={selected}
+							onClick={() => setSelected(25)}
+						/>
+						<ScoreButton
+							score={50}
+							selected={selected}
+							onClick={() => setSelected(50)}
+						/>
 					</div>
 				</div>
 			</div>
 
 			<div>
-				<Button className="w-full py-8 flex items-center" variant={"outline"}>
+				<Button
+					className="w-full py-8 flex items-center"
+					variant={"outline"}
+				>
 					<Target /> Show Dartboard
 				</Button>
 			</div>
@@ -73,4 +103,3 @@ function ScoreButton({
 		</Button>
 	);
 }
-
