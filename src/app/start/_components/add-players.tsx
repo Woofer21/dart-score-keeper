@@ -13,7 +13,6 @@ import {
 	PopoverContent,
 	PopoverTrigger
 } from "@/components/ui/popover";
-import { randomColor } from "@/lib/utils";
 import useGameStore from "@/stores/game-store";
 import { Check, Edit, Palette, Plus, RefreshCcw, Trash } from "lucide-react";
 
@@ -21,7 +20,6 @@ export default function AddPlayers() {
 	const players = useGameStore((state) => state.players);
 	const addPlayer = useGameStore((state) => state.addPlayer);
 	const updatePlayerName = useGameStore((state) => state.updatePlayerName);
-	const updatePlayerColor = useGameStore((state) => state.updatePlayerColor);
 	const removePlayer = useGameStore((state) => state.removePlayer);
 
 	return (
@@ -35,11 +33,7 @@ export default function AddPlayers() {
 
 			<div className="grid grid-cols-3 gap-2">
 				{players.map((player) => (
-					<Card
-						key={player.id}
-						className="border"
-						style={{ borderColor: player.color }}
-					>
+					<Card key={player.id}>
 						<CardHeader>
 							<h3>{player.name}</h3>
 						</CardHeader>
@@ -67,42 +61,6 @@ export default function AddPlayers() {
 								</PopoverContent>
 							</Popover>
 
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant={"outline"}
-										size={"icon"}
-									>
-										<Palette />
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className="space-y-2">
-									<p>Player Color</p>
-									<div className="flex flex-row items-center gap-2">
-										<Button
-											variant={"outline"}
-											size={"icon"}
-											onClick={() =>
-												updatePlayerColor(player.id, randomColor())
-											}
-										>
-											<RefreshCcw />
-										</Button>
-										<Input
-											value={player.color}
-											onChange={(e) =>
-												updatePlayerColor(player.id, e.target.value)
-											}
-										/>
-									</div>
-									<ColorOptions
-										updatePlayerColor={updatePlayerColor}
-										playerId={player.id}
-										currentColor={player.color}
-									/>
-								</PopoverContent>
-							</Popover>
-
 							<Button
 								variant={"destructive"}
 								size={"icon"}
@@ -124,56 +82,6 @@ export default function AddPlayers() {
 					</CardContent>
 				</Card>
 			</div>
-		</div>
-	);
-}
-
-function ColorOptions({
-	updatePlayerColor,
-	playerId,
-	currentColor
-}: {
-	updatePlayerColor: (playerId: string, color: string) => void;
-	playerId: string;
-	currentColor: string;
-}) {
-	const colors = [
-		// Top row
-		"#FF0000",
-		"#FFA500",
-		"#FFFF00",
-		"#90EE90",
-		"#008000",
-		"#00FFFF",
-		"#ADD8E6",
-		"#0000FF",
-
-		// Bottom row
-		"#800080",
-		"#EE82EE",
-		"#FFC0CB",
-		"#A52A2A",
-		"#4682B4",
-		"#CD853F",
-		"#DDA0DD",
-		"#F08080"
-	];
-
-	return (
-		<div className="flex flex-row gap-2 flex-wrap">
-			{colors.map((color) => (
-				<div
-					key={color}
-					className="w-6 h-6 rounded-md cursor-pointer flex items-center justify-center"
-					style={{ backgroundColor: color }}
-					onClick={() => updatePlayerColor(playerId, color)}
-					onKeyDown={() => updatePlayerColor(playerId, color)}
-				>
-					{currentColor.toLowerCase() === color.toLowerCase() && (
-						<Check className="size-4 text-background" />
-					)}
-				</div>
-			))}
 		</div>
 	);
 }

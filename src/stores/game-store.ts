@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import type { GameState, GameStore, Round } from "@/types/gameTypes";
 import { v4 as uuid } from "uuid";
-import { randomColor } from "@/lib/utils";
 
 const initialState: GameState = {
 	players: [],
@@ -17,21 +16,12 @@ const useGameStore = create<GameStore>((set) => ({
 
 	addPlayer: (name: string) =>
 		set((state) => ({
-			players: [
-				...state.players,
-				{ id: uuid(), name, score: 301, rounds: [], color: randomColor() }
-			]
+			players: [...state.players, { id: uuid(), name, score: 301, rounds: [] }]
 		})),
 	updatePlayerName: (playerId: string, name: string) =>
 		set((state) => ({
 			players: state.players.map((player) =>
 				player.id === playerId ? { ...player, name } : player
-			)
-		})),
-	updatePlayerColor: (playerId: string, color: string) =>
-		set((state) => ({
-			players: state.players.map((player) =>
-				player.id === playerId ? { ...player, color } : player
 			)
 		})),
 	removePlayer: (playerId: string) =>

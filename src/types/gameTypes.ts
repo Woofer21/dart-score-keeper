@@ -14,7 +14,6 @@ export interface Round {
 export interface Player {
 	id: string;
 	name: string;
-	color: string;
 	score: number;
 	rounds: Round[];
 }
@@ -31,7 +30,6 @@ export interface GameState {
 export interface GameActions {
 	addPlayer: (name: string) => void;
 	updatePlayerName: (playerId: string, name: string) => void;
-	updatePlayerColor: (playerId: string, color: string) => void;
 	removePlayer: (playerId: string) => void;
 	setCurrentPlayer: (playerId: string) => void;
 	setNextPlayer: () => void;
