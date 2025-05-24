@@ -40,6 +40,20 @@ const useGameStore = create<GameStore>((set) => ({
 		})),
 	setCurrentPlayer: (playerId: string) =>
 		set(() => ({ currentPlayer: playerId })),
+	setNextPlayer: () => {
+		set((state) => {
+			const indx = state.order.indexOf(state.currentPlayer ?? "");
+
+			if (indx === -1) {
+				return { currentPlayer: null };
+			}
+
+			return {
+				currentPlayer:
+					state.order[indx + 1 === state.order.length ? 0 : indx + 1]
+			};
+		});
+	},
 
 	initGameScore: (score: number) =>
 		set((state) => ({
@@ -57,7 +71,11 @@ const useGameStore = create<GameStore>((set) => ({
 		set((state) => ({
 			players: state.players.map((player) =>
 				player.id === playerId
-					? { ...player, rounds: [...player.rounds, round] }
+					? {
+							...player,
+							score: player.score - round.totalScore,
+							rounds: [...player.rounds, round]
+						}
 					: player
 			)
 		})),

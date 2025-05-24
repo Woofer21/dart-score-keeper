@@ -1,13 +1,13 @@
 export interface Dart {
-	place: number;
+	score: number;
 	multiplier: 1 | 2 | 3;
-	type: "hit" | "miss";
 }
 
 export interface Round {
 	dart1: Dart;
 	dart2: Dart;
 	dart3: Dart;
+	totalScore: number;
 }
 
 export interface Player {
@@ -33,6 +33,7 @@ export interface GameActions {
 	updatePlayerColor: (playerId: string, color: string) => void;
 	removePlayer: (playerId: string) => void;
 	setCurrentPlayer: (playerId: string) => void;
+	setNextPlayer: () => void;
 
 	initGameScore: (score: number) => void;
 	startGame: () => void;
