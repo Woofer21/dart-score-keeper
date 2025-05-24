@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global.css";
+import Link from "next/link";
+import { Moon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -25,9 +29,30 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-[90vh]`}
 			>
-				{children}
+				<TooltipProvider>
+					<nav className="flex flex-row items-center justify-around gap-2 p-2 border border-transparent border-b-border">
+						<Link href={"/"}>
+							<h1>Dart Score Keeper</h1>
+						</Link>
+						<div className="flex flex-row items-center gap-2">
+							<Link href={"#"}>
+								<Button variant={"ghost"}>Statistics</Button>
+							</Link>
+							<Button
+								variant={"ghost"}
+								size={"icon"}
+							>
+								<Moon className="size-4" />
+							</Button>
+						</div>
+					</nav>
+					{children}
+					<footer className="flex flex-row items-center justify-around gap-2 p-2 border border-transparent border-t-border">
+						<p>Made with ❤️</p>
+					</footer>
+				</TooltipProvider>
 			</body>
 		</html>
 	);
