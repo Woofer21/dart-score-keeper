@@ -74,11 +74,7 @@ export default function Spaces() {
 		setMultiplier(1);
 	};
 
-	if (isRedirecting) {
-		return null;
-	}
-
-	if (!currentPlayer) {
+	if (!currentPlayer || isRedirecting) {
 		return null;
 	}
 
@@ -188,13 +184,18 @@ export default function Spaces() {
 					<div className="grid col-span-3 grid-cols-2 gap-2">
 						<div>
 							<p>Round Score:</p>
-							<p className="text-2xl font-bold">{round.totalScore}</p>
+							<p className="text-2xl font-bold">
+								{round.totalScore +
+									(selected === -1 ? 0 : selected * multiplier)}
+							</p>
 						</div>
 
 						<div>
 							<p>Remaining Score:</p>
 							<p className="text-2xl font-bold">
-								{currentPlayer.score - round.totalScore}
+								{currentPlayer.score -
+									round.totalScore -
+									(selected === -1 ? 0 : selected * multiplier)}
 							</p>
 						</div>
 					</div>
