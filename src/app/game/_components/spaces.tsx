@@ -39,16 +39,31 @@ export default function Spaces() {
 	}, [currentPlayer, router, isRedirecting]);
 
 	const enterRound = () => {
-		if (round.dart === 3) {
-			// Last dart of the round, finalize round and update store
-			const newScores = [...round.scores, { score: selected, multiplier }];
-			const newTotalScore = round.totalScore + selected * multiplier;
+		const newScores = [...round.scores, { score: selected, multiplier }];
+		const newTotalScore = round.totalScore + selected * multiplier;
 
+		if (round.dart === 3) {
 			// Update store first
 			addRound(currentPlayer.id, {
 				dart1: newScores[0],
 				dart2: newScores[1],
 				dart3: newScores[2],
+				totalScore: newTotalScore,
+				bust: currentPlayer.score - newTotalScore < 0
+			});
+			setNextPlayer();
+
+			// Reset round state
+			setRound({
+				dart: 1,
+				totalScore: 0,
+				scores: []
+			});
+		} else if (currentPlayer.score - newTotalScore < 0) {
+			addRound(currentPlayer.id, {
+				dart1: newScores[0],
+				dart2: newScores[1] ?? { score: 0, multiplier: 1 },
+				dart3: newScores[2] ?? { score: 0, multiplier: 1 },
 				totalScore: newTotalScore,
 				bust: currentPlayer.score - newTotalScore < 0
 			});
