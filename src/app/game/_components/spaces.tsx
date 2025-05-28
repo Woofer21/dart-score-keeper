@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import useGameStore from "@/stores/game-store";
 import { Ban, CornerDownRight, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const points = new Array(20).fill(0);
 
@@ -31,14 +31,8 @@ export default function Spaces() {
 		totalScore: 0,
 		scores: []
 	});
-	useEffect(() => {
-		if (!currentPlayer && !isRedirecting) {
-			setIsRedirecting(true);
-			router.push("/start");
-		}
-	}, [currentPlayer, router, isRedirecting]);
 
-	const enterRound = () => {
+	const enterRound = useCallback(() => {
 		const newScores = [...round.scores, { score: selected, multiplier }];
 		const newTotalScore = round.totalScore + selected * multiplier;
 
@@ -87,7 +81,31 @@ export default function Spaces() {
 		// Reset selection and multiplier
 		setSelected(-1);
 		setMultiplier(1);
-	};
+	}, [currentPlayer, round, selected, multiplier, addRound, setNextPlayer]);
+
+	const handleEnterPress = useCallback(
+		(e: KeyboardEvent) => {
+			if (e.key === "Enter" && selected !== -1) {
+				enterRound();
+			}
+		},
+		[enterRound, selected]
+	);
+
+	useEffect(() => {
+		document.addEventListener("keydown", handleEnterPress);
+
+		return () => {
+			document.removeEventListener("keydown", handleEnterPress);
+		};
+	}, [handleEnterPress]);
+
+	useEffect(() => {
+		if (!currentPlayer && !isRedirecting) {
+			setIsRedirecting(true);
+			router.push("/start");
+		}
+	}, [currentPlayer, router, isRedirecting]);
 
 	if (!currentPlayer || isRedirecting) {
 		return null;
