@@ -6,9 +6,10 @@ import {
 	TooltipContent,
 	TooltipTrigger
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import useGameStore from "@/stores/game-store";
 import type { Player } from "@/types/gameTypes";
-import { History } from "lucide-react";
+import { Crown, History } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function PlayerList() {
@@ -47,11 +48,16 @@ const PlayerCard = ({
 	return (
 		<div
 			key={player.id}
-			className={`bg-card rounded-md p-4 flex flex-row gap-2 items-center border border-border justify-between ${
-				current ? "border-primary" : "scale-95"
-			}`}
+			className={cn(
+				`bg-card rounded-md p-4 flex flex-row gap-2 items-center border border-border justify-between relative ${
+					current ? "border-primary" : "scale-95"
+				} ${player.score === 0 ? "border-yellow-500 shadow-lg shadow-yellow-500/50" : ""}`
+			)}
 			{...props}
 		>
+			{player.score === 0 && (
+				<Crown className="text-yellow-500 absolute -top-2 -left-2 -rotate-[24deg]" />
+			)}
 			<div>
 				<p>{player.name}</p>
 				<div>
