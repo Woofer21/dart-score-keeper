@@ -20,8 +20,11 @@ export default function Spaces() {
 		(state) =>
 			state.players.filter((player) => player.id === state.currentPlayer)[0]
 	);
+	const order = useGameStore((state) => state.order);
+	const gameState = useGameStore((state) => state);
 	const addRound = useGameStore((state) => state.addRound);
 	const setNextPlayer = useGameStore((state) => state.setNextPlayer);
+	const updateOrder = useGameStore((state) => state.updateOrder);
 
 	const [isRedirecting, setIsRedirecting] = useState(false);
 	const [selected, setSelected] = useState<number>(-1);
@@ -32,20 +35,27 @@ export default function Spaces() {
 		scores: []
 	});
 
+	console.log(gameState);
+	
+
 	const enterRound = useCallback(() => {
 		const newScores = [...round.scores, { score: selected, multiplier }];
 		const newTotalScore = round.totalScore + selected * multiplier;
 
-		if (round.dart === 3) {
-			// Update store first
+		if (currentPlayer.score - newTotalScore === 0) {
 			addRound(currentPlayer.id, {
 				dart1: newScores[0],
-				dart2: newScores[1],
-				dart3: newScores[2],
+				dart2: newScores[1] ?? { score: 0, multiplier: 1 },
+				dart3: newScores[2] ?? { score: 0, multiplier: 1 },
 				totalScore: newTotalScore,
-				bust: currentPlayer.score - newTotalScore < 0
+				bust: false
 			});
+
+			console.log(order, currentPlayer.id);
+			
+
 			setNextPlayer();
+			updateOrder([...order].filter((id) => id !== currentPlayer.id));
 
 			// Reset round state
 			setRound({
@@ -69,6 +79,23 @@ export default function Spaces() {
 				totalScore: 0,
 				scores: []
 			});
+		} else if (round.dart === 3) {
+			// Update store first
+			addRound(currentPlayer.id, {
+				dart1: newScores[0],
+				dart2: newScores[1],
+				dart3: newScores[2],
+				totalScore: newTotalScore,
+				bust: currentPlayer.score - newTotalScore < 0
+			});
+			setNextPlayer();
+
+			// Reset round state
+			setRound({
+				dart: 1,
+				totalScore: 0,
+				scores: []
+			});
 		} else {
 			// Not last dart, just update round state
 			setRound((prev) => ({
@@ -81,7 +108,7 @@ export default function Spaces() {
 		// Reset selection and multiplier
 		setSelected(-1);
 		setMultiplier(1);
-	}, [currentPlayer, round, selected, multiplier, addRound, setNextPlayer]);
+	}, [currentPlayer, order, round, selected, multiplier, addRound, setNextPlayer, updateOrder]);
 
 	const handleEnterPress = useCallback(
 		(e: KeyboardEvent) => {
