@@ -2,11 +2,11 @@
 
 import { defineStepper } from "@/components/stepper";
 import { Button } from "@/components/ui/button";
+import useGameStore from "@/stores/game-store";
+import { useRouter } from "next/navigation";
 import AddPlayers from "./_components/add-players";
 import GameSettings from "./_components/game-settings";
 import StartGame from "./_components/start";
-import useGameStore from "@/stores/game-store";
-import { useRouter } from "next/navigation";
 
 const { Stepper } = defineStepper(
 	{ id: "step-1", name: "Set Players" },
