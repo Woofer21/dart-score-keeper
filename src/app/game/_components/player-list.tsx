@@ -1,6 +1,16 @@
 "use client";
 
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -19,7 +29,7 @@ export default function PlayerList() {
 	const router = useRouter();
 	const players = useGameStore((state) => state.players);
 	const currentPlayer = useGameStore((state) => state.currentPlayer);
-	const endGame = useGameStore((state) => state.endGame)
+	const endGame = useGameStore((state) => state.endGame);
 
 	const [bypass, setBypass] = useState(false);
 
@@ -45,49 +55,90 @@ export default function PlayerList() {
 					))}
 			</div>
 
-				<AlertDialog open={(players.filter((p) => p.score === 0).length > 0 && !bypass) || players.filter((p) => p.score !== 0).length === 0}>
-					<AlertDialogContent size="sm">
-						<AlertDialogHeader>
-							<AlertDialogTitle>🎉 Congratulations {players.find((p) => p.score === 0)?.name}! 🎉</AlertDialogTitle>
-							<AlertDialogDescription>You have won the game!</AlertDialogDescription>
-						</AlertDialogHeader>
+			<AlertDialog
+				open={
+					(players.filter((p) => p.score === 0).length > 0 && !bypass) ||
+					players.filter((p) => p.score !== 0).length === 0
+				}
+			>
+				<AlertDialogContent size="sm">
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							🎉 Congratulations {players.find((p) => p.score === 0)?.name}! 🎉
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							You have won the game!
+						</AlertDialogDescription>
+					</AlertDialogHeader>
 
-						<ScrollArea className="max-h-64">
-							{players.sort((a, b) => a.score - b.score).map((player) => (
-								<div key={`${player.id}-modal`} className="border border-border p-2 rounded-md my-2">
+					<ScrollArea className="max-h-64">
+						{players
+							.sort((a, b) => a.score - b.score)
+							.map((player) => (
+								<div
+									key={`${player.id}-modal`}
+									className="border border-border p-2 rounded-md my-2"
+								>
 									<div className="flex flex-row items-center gap-2 justify-between">
 										<h2>{player.name}</h2>
 										<p>{player.score}</p>
 									</div>
 
-									<Button variant={"outline"} className="w-full my-2">Show Darts</Button>
+									<Button
+										variant={"outline"}
+										className="w-full my-2"
+									>
+										Show Darts
+									</Button>
 								</div>
 							))}
-						</ScrollArea>
+					</ScrollArea>
 
-						<AlertDialogFooter>
-							<AlertDialogCancel onClick={() => setBypass(true)} disabled={players.filter((p) => p.score !== 0).length === 0}>Continue Game</AlertDialogCancel>
-							<AlertDialogAction onClick={endGame}>New Game</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
+					<AlertDialogFooter>
+						<AlertDialogCancel
+							onClick={() => setBypass(true)}
+							disabled={players.filter((p) => p.score !== 0).length === 0}
+						>
+							Continue Game
+						</AlertDialogCancel>
+						<AlertDialogAction onClick={endGame}>New Game</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 
-				{bypass && <Button variant={"outline"} className="w-full" onClick={() => setBypass(false)}>End Game</Button>}
-				{!bypass && !(players.filter((p) => p.score === 0).length > 0) && <AlertDialog>
+			{bypass && (
+				<Button
+					variant={"outline"}
+					className="w-full"
+					onClick={() => setBypass(false)}
+				>
+					End Game
+				</Button>
+			)}
+			{!bypass && !(players.filter((p) => p.score === 0).length > 0) && (
+				<AlertDialog>
 					<AlertDialogTrigger asChild>
 						<Button variant={"destructive"}>End Game Early</Button>
 					</AlertDialogTrigger>
 					<AlertDialogContent size="sm">
 						<AlertDialogHeader>
 							<AlertDialogTitle>End Game Early?</AlertDialogTitle>
-							<AlertDialogDescription>Are you sure you want to end the game early?</AlertDialogDescription>
+							<AlertDialogDescription>
+								Are you sure you want to end the game early?
+							</AlertDialogDescription>
 						</AlertDialogHeader>
 						<AlertDialogFooter>
 							<AlertDialogCancel>No</AlertDialogCancel>
-							<AlertDialogAction variant={"destructive"} onClick={endGame}>End Game</AlertDialogAction>
+							<AlertDialogAction
+								variant={"destructive"}
+								onClick={endGame}
+							>
+								End Game
+							</AlertDialogAction>
 						</AlertDialogFooter>
 					</AlertDialogContent>
-					</AlertDialog>}
+				</AlertDialog>
+			)}
 		</div>
 	);
 }

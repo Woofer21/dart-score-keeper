@@ -36,7 +36,6 @@ export default function Spaces() {
 	});
 
 	console.log(gameState);
-	
 
 	const enterRound = useCallback(() => {
 		const newScores = [...round.scores, { score: selected, multiplier }];
@@ -52,7 +51,6 @@ export default function Spaces() {
 			});
 
 			console.log(order, currentPlayer.id);
-			
 
 			setNextPlayer();
 			updateOrder([...order].filter((id) => id !== currentPlayer.id));
@@ -108,7 +106,16 @@ export default function Spaces() {
 		// Reset selection and multiplier
 		setSelected(-1);
 		setMultiplier(1);
-	}, [currentPlayer, order, round, selected, multiplier, addRound, setNextPlayer, updateOrder]);
+	}, [
+		currentPlayer,
+		order,
+		round,
+		selected,
+		multiplier,
+		addRound,
+		setNextPlayer,
+		updateOrder
+	]);
 
 	const handleEnterPress = useCallback(
 		(e: KeyboardEvent) => {
