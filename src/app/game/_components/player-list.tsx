@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -73,6 +73,21 @@ export default function PlayerList() {
 				</AlertDialog>
 
 				{bypass && <Button variant={"outline"} className="w-full" onClick={() => setBypass(false)}>End Game</Button>}
+				{!bypass && !(players.filter((p) => p.score === 0).length > 0) && <AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button variant={"destructive"}>End Game Early</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent size="sm">
+						<AlertDialogHeader>
+							<AlertDialogTitle>End Game Early?</AlertDialogTitle>
+							<AlertDialogDescription>Are you sure you want to end the game early?</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>No</AlertDialogCancel>
+							<AlertDialogAction variant={"destructive"} onClick={endGame}>End Game</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+					</AlertDialog>}
 		</div>
 	);
 }
