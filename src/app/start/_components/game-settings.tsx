@@ -48,7 +48,7 @@ export default function GameSettings() {
 					startingScore={startingScore}
 					Icon={HourglassMediumIcon}
 				/>
-				
+
 				<GameLengthCard
 					value={501}
 					label="Longer"
@@ -60,7 +60,7 @@ export default function GameSettings() {
 					<PopoverTrigger>
 						<Card
 							className={clsx("cursor-pointer", {
-								"outline-green-500 outline bg-green-500/10":
+								"outline-primary outline bg-primary/10":
 									startingScore !== 501 &&
 									startingScore !== 301 &&
 									startingScore !== 101
@@ -116,7 +116,7 @@ function GameLengthCard({
 	return (
 		<Card
 			className={clsx("cursor-pointer", {
-				"outline-green-500 outline bg-green-500/10": startingScore === value
+				"outline-primary outline bg-primary/10": startingScore === value
 			})}
 			onClick={() => initGameScore(value)}
 		>
