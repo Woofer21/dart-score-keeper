@@ -57,13 +57,18 @@ export default function GameSettings() {
 				/>
 
 				<Popover>
-					<PopoverTrigger>
+					<PopoverTrigger className="group outline-none">
 						<Card
-							className={clsx("cursor-pointer", {
+							className={clsx("cursor-pointer group-focus-visible:ring-ring group-focus-visible:ring-4 transition-all", {
 								"outline-primary outline bg-primary/10":
 									startingScore !== 501 &&
 									startingScore !== 301 &&
-									startingScore !== 101
+									startingScore !== 101,
+
+								"group-focus-visible:outline-none group-focus-visible:ring-[3px]": 
+									startingScore === 501 ||
+									startingScore === 301 ||
+									startingScore === 101
 							})}
 						>
 							<CardContent className="mx-auto">
@@ -115,10 +120,16 @@ function GameLengthCard({
 
 	return (
 		<Card
-			className={clsx("cursor-pointer", {
-				"outline-primary outline bg-primary/10": startingScore === value
+			className={clsx("cursor-pointer focus-visible:ring-ring focus-visible:ring-4 transition-all", {
+				"outline-primary outline bg-primary/10": startingScore === value,
+				"outline-none focus-visible:ring-[3px]": startingScore !== value
 			})}
 			onClick={() => initGameScore(value)}
+			onKeyDown={(e) =>
+				e.key === "Enter" ? initGameScore(value) : null
+			}
+			tabIndex={0}
+			aria-roledescription="button"
 		>
 			<CardContent className="mx-auto">
 				<Icon className="size-12" />

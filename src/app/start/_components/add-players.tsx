@@ -72,7 +72,7 @@ export default function AddPlayers() {
 					className="cursor-pointer focus-visible:ring-ring focus-visible:ring-[3px] outline-none transition-all"
 					onClick={() => addPlayer(`Player ${players.length + 1}`)}
 					onKeyDown={(e) =>
-						e.key === "space" ? addPlayer(`Player ${players.length + 1}`) : null
+						e.key === "Enter" ? addPlayer(`Player ${players.length + 1}`) : null
 					}
 					tabIndex={0}
 					aria-roledescription="button"
