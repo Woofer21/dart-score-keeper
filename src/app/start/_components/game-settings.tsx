@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
 	Popover,
@@ -13,13 +13,14 @@ import {
 	ClockCountdownIcon,
 	HourglassHighIcon,
 	HourglassLowIcon,
-	HourglassMediumIcon
+	HourglassMediumIcon,
+	type IconProps
 } from "@phosphor-icons/react";
 import clsx from "clsx";
-import { useState } from "react";
+import { type ForwardRefExoticComponent, useState } from "react";
 
 export default function GameSettings() {
-	const [customScore, setCustomScore] = useState(501);
+	const [customScore, setCustomScore] = useState(601);
 	const startingScore = useGameStore((state) => state.startingScore);
 	const initGameScore = useGameStore((state) => state.initGameScore);
 
@@ -27,68 +28,55 @@ export default function GameSettings() {
 		<div className="space-y-2">
 			<div className="flex flex-col gap-2">
 				<h2 className="text-2xl">Game Settings</h2>
-				<p className="text-muted-foreground">Configure your game settings</p>
+				<p className="text-muted-foreground">
+					Configure the settings for your game
+				</p>
 			</div>
 
 			<h3>Starting Score</h3>
 			<div className="grid grid-cols-3 gap-2">
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 101
-					})}
-					onClick={() => initGameScore(101)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<HourglassLowIcon className="size-14" />
-						<p>Shorter - 101</p>
-					</CardContent>
-				</Card>
+				<GameLengthCard
+					value={101}
+					label="Shorter"
+					startingScore={startingScore}
+					Icon={HourglassLowIcon}
+				/>
 
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 201
-					})}
-					onClick={() => initGameScore(201)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<HourglassMediumIcon className="size-14" />
-						<p>Medium - 201</p>
-					</CardContent>
-				</Card>
-
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 301
-					})}
-					onClick={() => initGameScore(301)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<HourglassHighIcon className="size-14" />
-						<p>Longer - 301</p>
-					</CardContent>
-				</Card>
+				<GameLengthCard
+					value={301}
+					label="Medium"
+					startingScore={startingScore}
+					Icon={HourglassMediumIcon}
+				/>
+				
+				<GameLengthCard
+					value={501}
+					label="Longer"
+					startingScore={startingScore}
+					Icon={HourglassHighIcon}
+				/>
 
 				<Popover>
 					<PopoverTrigger>
 						<Card
 							className={clsx("cursor-pointer", {
-								"border-green-500 bg-green-500/10":
+								"outline-green-500 outline bg-green-500/10":
+									startingScore !== 501 &&
 									startingScore !== 301 &&
-									startingScore !== 201 &&
 									startingScore !== 101
 							})}
 						>
-							<CardContent className="flex flex-col gap-2 items-center">
+							<CardContent className="mx-auto">
 								<ClockCountdownIcon className="size-14" />
-								<p>
+							</CardContent>
+
+							<CardFooter className="justify-center">
 									Custom
-									{startingScore === 301 ||
-									startingScore === 201 ||
+									{startingScore === 501 ||
+									startingScore === 301 ||
 									startingScore === 101
 										? null
-										: ` - ${startingScore}`}
-								</p>
-							</CardContent>
+										: ` - ${startingScore}`}</CardFooter>
 						</Card>
 					</PopoverTrigger>
 					<PopoverContent className="space-y-2">
@@ -97,6 +85,7 @@ export default function GameSettings() {
 							value={customScore}
 							onChange={(e) => setCustomScore(Number(e.target.value))}
 							type="number"
+							onFocus={(e) => e.target.select()}
 						/>
 						<Button
 							variant={"outline"}
@@ -108,5 +97,35 @@ export default function GameSettings() {
 				</Popover>
 			</div>
 		</div>
+	);
+}
+
+function GameLengthCard({
+	value,
+	label,
+	startingScore,
+	Icon
+}: {
+	value: number;
+	label: string;
+	startingScore: number;
+	Icon: ForwardRefExoticComponent<IconProps>;
+}) {
+	const initGameScore = useGameStore((state) => state.initGameScore);
+
+	return (
+		<Card
+			className={clsx("cursor-pointer", {
+				"outline-green-500 outline bg-green-500/10": startingScore === value
+			})}
+			onClick={() => initGameScore(value)}
+		>
+			<CardContent className="mx-auto">
+				<Icon className="size-12" />
+			</CardContent>
+			<CardFooter className="justify-center">
+				{label} - {value}
+			</CardFooter>
+		</Card>
 	);
 }
