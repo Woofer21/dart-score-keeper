@@ -9,8 +9,8 @@ import {
 	PopoverTrigger
 } from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
+import { ClockCountdownIcon, HourglassHighIcon, HourglassLowIcon, HourglassMediumIcon } from "@phosphor-icons/react";
 import clsx from "clsx";
-import { Clock2, Clock3, Clock4, ClockFading } from "lucide-react";
 import { useState } from "react";
 
 export default function GameSettings() {
@@ -34,7 +34,7 @@ export default function GameSettings() {
 					onClick={() => initGameScore(101)}
 				>
 					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock2 className="size-14" />
+						<HourglassLowIcon className="size-14" />
 						<p>Shorter - 101</p>
 					</CardContent>
 				</Card>
@@ -46,7 +46,7 @@ export default function GameSettings() {
 					onClick={() => initGameScore(201)}
 				>
 					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock3 className="size-14" />
+						<HourglassMediumIcon className="size-14" />
 						<p>Medium - 201</p>
 					</CardContent>
 				</Card>
@@ -58,13 +58,13 @@ export default function GameSettings() {
 					onClick={() => initGameScore(301)}
 				>
 					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock4 className="size-14" />
+						<HourglassHighIcon className="size-14" />
 						<p>Longer - 301</p>
 					</CardContent>
 				</Card>
 
 				<Popover>
-					<PopoverTrigger asChild>
+					<PopoverTrigger>
 						<Card
 							className={clsx("cursor-pointer", {
 								"border-green-500 bg-green-500/10":
@@ -74,7 +74,7 @@ export default function GameSettings() {
 							})}
 						>
 							<CardContent className="flex flex-col gap-2 items-center">
-								<ClockFading className="size-14" />
+								<ClockCountdownIcon className="size-14" />
 								<p>
 									Custom
 									{startingScore === 301 ||

@@ -7,8 +7,8 @@ import {
 	CollapsibleTrigger
 } from "@/components/ui/collapsible";
 import useGameStore from "@/stores/game-store";
+import { CaretDownIcon, PencilIcon } from "@phosphor-icons/react";
 import type { Stepper } from "@stepperize/react";
-import { ChevronDown, Edit } from "lucide-react";
 
 export type StepperMethods = Stepper<
 	[
@@ -45,9 +45,9 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 								onClick={() => methods.goTo("step-1")}
 								onKeyDown={() => methods.goTo("step-1")}
 							>
-								<Edit className="size-6" />
+								<PencilIcon className="size-6" />
 							</div>
-							<ChevronDown className="size-8 group-data-[state=open]:rotate-180 transition-all" />
+							<CaretDownIcon className="size-8 group-data-[state=open]:rotate-180 transition-all" />
 						</div>
 					</CollapsibleTrigger>
 					<CollapsibleContent className="flex flex-row gap-2 p-2">
@@ -75,7 +75,7 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 							onClick={() => methods.goTo("step-2")}
 							onKeyDown={() => methods.goTo("step-2")}
 						>
-							<Edit className="size-6" />
+							<PencilIcon className="size-6" />
 						</div>
 					</CollapsibleTrigger>
 				</Collapsible>

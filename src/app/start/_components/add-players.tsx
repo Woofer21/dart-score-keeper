@@ -14,7 +14,7 @@ import {
 	PopoverTrigger
 } from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
-import { Check, Edit, Palette, Plus, RefreshCcw, Trash } from "lucide-react";
+import { PenIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
 
 export default function AddPlayers() {
 	const players = useGameStore((state) => state.players);
@@ -42,14 +42,13 @@ export default function AddPlayers() {
 
 						<CardFooter className="flex flex-row items-center justify-center gap-2 w-full">
 							<Popover>
-								<PopoverTrigger asChild>
-									<Button
+								<PopoverTrigger render={<Button
 										variant={"outline"}
 										size={"icon"}
-									>
-										<Edit />
-									</Button>
-								</PopoverTrigger>
+									/>}>
+									
+										<PenIcon />
+									</PopoverTrigger>
 								<PopoverContent className="space-y-2">
 									<p>Player Name</p>
 									<Input
@@ -66,7 +65,7 @@ export default function AddPlayers() {
 								size={"icon"}
 								onClick={() => removePlayer(player.id)}
 							>
-								<Trash />
+								<TrashIcon />
 							</Button>
 						</CardFooter>
 					</Card>
@@ -77,7 +76,7 @@ export default function AddPlayers() {
 					onClick={() => addPlayer(`Player ${players.length + 1}`)}
 				>
 					<CardContent className="flex flex-col gap-2 items-center">
-						<Plus className="size-14" />
+						<PlusIcon className="size-14" />
 						<p>Add Player</p>
 					</CardContent>
 				</Card>

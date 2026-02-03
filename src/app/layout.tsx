@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import "@/styles/global.css";
-import Link from "next/link";
-import { Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Link from "next/link";
+
+const notoSans = Noto_Sans({variable:'--font-sans'});
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -27,7 +28,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" className={notoSans.variable}>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-[90vh]`}
 			>
@@ -40,12 +41,12 @@ export default function RootLayout({
 							<Link href={"#"}>
 								<Button variant={"ghost"}>Statistics</Button>
 							</Link>
-							<Button
+							{/* <Button
 								variant={"ghost"}
 								size={"icon"}
 							>
-								<Moon className="size-4" />
-							</Button>
+								<MoonIcon className="size-4" />
+							</Button> */}
 						</div>
 					</nav>
 					{children}

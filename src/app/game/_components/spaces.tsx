@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import useGameStore from "@/stores/game-store";
-import { Ban, CornerDownRight, Target } from "lucide-react";
+import { ArrowDownRightIcon, TargetIcon } from "@phosphor-icons/react";
+import { ProhibitIcon } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -327,7 +328,7 @@ export default function Spaces() {
 							disabled={selected === -1}
 							onClick={enterRound}
 						>
-							<CornerDownRight />
+							<ArrowDownRightIcon />
 						</Button>
 					</div>
 				</div>
@@ -338,7 +339,7 @@ export default function Spaces() {
 					className="w-full py-8 flex items-center"
 					variant={"outline"}
 				>
-					<Target /> Show Dartboard
+					<TargetIcon /> Show Dartboard
 				</Button>
 			</div>
 		</div>
@@ -356,7 +357,7 @@ function ScoreButton({
 			className="text-xl py-8"
 			{...props}
 		>
-			<p>{score === 0 ? <Ban /> : score}</p>
+			<p>{score === 0 ? <ProhibitIcon /> : score}</p>
 		</Button>
 	);
 }

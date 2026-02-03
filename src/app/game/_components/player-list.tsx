@@ -21,7 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import useGameStore from "@/stores/game-store";
 import type { Player } from "@/types/gameTypes";
-import { Crown, History } from "lucide-react";
+import { ClockCounterClockwiseIcon, CrownIcon } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -117,7 +117,7 @@ export default function PlayerList() {
 			)}
 			{!bypass && !(players.filter((p) => p.score === 0).length > 0) && (
 				<AlertDialog>
-					<AlertDialogTrigger asChild>
+					<AlertDialogTrigger>
 						<Button variant={"destructive"}>End Game Early</Button>
 					</AlertDialogTrigger>
 					<AlertDialogContent size="sm">
@@ -159,7 +159,7 @@ const PlayerCard = ({
 			{...props}
 		>
 			{player.score === 0 && (
-				<Crown className="text-yellow-500 absolute -top-2 -left-2 -rotate-24" />
+				<CrownIcon className="text-yellow-500 absolute -top-2 -left-2 -rotate-24" />
 			)}
 			<div>
 				<p>{player.name}</p>
@@ -169,14 +169,14 @@ const PlayerCard = ({
 			</div>
 			<div>
 				<Tooltip>
-					<TooltipTrigger asChild>
+					<TooltipTrigger>
 						<Button
-							size={"icon"}
+							size={"icon"} 
 							variant={"outline"}
 						>
-							<History />
+							<ClockCounterClockwiseIcon />
 						</Button>
-					</TooltipTrigger>
+						</TooltipTrigger>
 					<TooltipContent>Show Dart History</TooltipContent>
 				</Tooltip>
 			</div>
