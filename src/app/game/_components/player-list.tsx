@@ -171,12 +171,12 @@ const PlayerCard = ({
 				<Tooltip>
 					<TooltipTrigger>
 						<Button
-							size={"icon"} 
+							size={"icon"}
 							variant={"outline"}
 						>
 							<ClockCounterClockwiseIcon />
 						</Button>
-						</TooltipTrigger>
+					</TooltipTrigger>
 					<TooltipContent>Show Dart History</TooltipContent>
 				</Tooltip>
 			</div>

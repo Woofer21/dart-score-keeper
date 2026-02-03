@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Link from "next/link";
 
-const notoSans = Noto_Sans({variable:'--font-sans'});
+const notoSans = Noto_Sans({ variable: "--font-sans" });
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -28,7 +28,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={notoSans.variable}>
+		<html
+			lang="en"
+			className={notoSans.variable}
+		>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased dark min-h-[90vh]`}
 			>

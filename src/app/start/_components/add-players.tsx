@@ -43,12 +43,9 @@ export default function AddPlayers() {
 
 						<CardFooter className="flex flex-row items-center justify-center gap-2">
 							<Popover>
-								<PopoverTrigger render={<Button
-										variant={"outline"}
-									/>}>
-									
-										<PenIcon /> Name
-									</PopoverTrigger>
+								<PopoverTrigger render={<Button variant={"outline"} />}>
+									<PenIcon /> Name
+								</PopoverTrigger>
 								<PopoverContent className="space-y-2">
 									<p>Player Name</p>
 									<Input
@@ -74,17 +71,16 @@ export default function AddPlayers() {
 				<Card
 					className="cursor-pointer focus-visible:ring-ring focus-visible:ring-[3px] outline-none transition-all"
 					onClick={() => addPlayer(`Player ${players.length + 1}`)}
-					onKeyDown={(e) => e.key === "space" ? addPlayer(`Player ${players.length + 1}`) :  null}
+					onKeyDown={(e) =>
+						e.key === "space" ? addPlayer(`Player ${players.length + 1}`) : null
+					}
 					tabIndex={0}
 					aria-roledescription="button"
 				>
 					<CardContent className="mx-auto">
 						<PlusIcon className="size-12" />
-
 					</CardContent>
-						<CardFooter className="justify-center">
-							Add Player
-						</CardFooter>
+					<CardFooter className="justify-center">Add Player</CardFooter>
 				</Card>
 			</div>
 		</div>

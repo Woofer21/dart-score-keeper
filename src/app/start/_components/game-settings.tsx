@@ -9,7 +9,12 @@ import {
 	PopoverTrigger
 } from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
-import { ClockCountdownIcon, HourglassHighIcon, HourglassLowIcon, HourglassMediumIcon } from "@phosphor-icons/react";
+import {
+	ClockCountdownIcon,
+	HourglassHighIcon,
+	HourglassLowIcon,
+	HourglassMediumIcon
+} from "@phosphor-icons/react";
 import clsx from "clsx";
 import { useState } from "react";
 
