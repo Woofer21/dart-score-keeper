@@ -35,24 +35,34 @@ export default function PlayerList() {
 
 	return (
 		<div className="flex flex-col gap-2 justify-between w-full h-full rounded-md border border-border p-4">
-			<div className="flex flex-col gap-2">
-				{players
-					.filter((player) => player.id === currentPlayer)
-					.map((player) => (
-						<PlayerCard
-							player={player}
-							key={player.id}
-							current
-						/>
-					))}
-				{players
-					.filter((player) => player.id !== currentPlayer)
-					.map((player) => (
-						<PlayerCard
-							player={player}
-							key={player.id}
-						/>
-					))}
+			<div className="flex flex-col relative">
+				<div className="absolute h-4 z-10 w-full top-0 left-0 bg-linear-to-b from-background to-transparent"/>
+
+				<ScrollArea className="max-h-[85dvh]">
+					<div className="h-2" />
+					{players
+						.filter((player) => player.id === currentPlayer)
+						.map((player) => (
+							<PlayerCard
+								player={player}
+								key={player.id}
+								current
+							/>
+						))}
+
+					{players
+						.filter((player) => player.id !== currentPlayer)
+						.map((player) => (
+							<PlayerCard
+								player={player}
+								key={player.id}
+							/>
+						))}
+
+						<br  />
+				</ScrollArea>
+
+				<div className="absolute h-4 w-full z-10 bottom-0 left-0 bg-linear-to-b from-transparent to-background"/>
 			</div>
 
 			<AlertDialog
