@@ -1,7 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
+} from "@/components/ui/tooltip";
 import useGameStore from "@/stores/game-store";
 import { PencilIcon } from "@phosphor-icons/react";
 import type { Stepper } from "@stepperize/react";
@@ -28,23 +32,31 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 
 			<div className="space-y-2">
 				<GameStateWrapper>
-						<div>
-							{state.players.length} Players <br />
-							<span className="text-muted-foreground group-data-[state=open]:hidden">
-								{state.players.map((player) => player.name).join(", ")}
-							</span>
-						</div>
-						<EditTooltip text="Edit Players" step="step-1" methods={methods} />
+					<div>
+						{state.players.length} Players <br />
+						<span className="text-muted-foreground group-data-[state=open]:hidden">
+							{state.players.map((player) => player.name).join(", ")}
+						</span>
+					</div>
+					<EditTooltip
+						text="Edit Players"
+						step="step-1"
+						methods={methods}
+					/>
 				</GameStateWrapper>
-<GameStateWrapper>
-						<div>
-							Game Settings <br />
-							<span className="text-muted-foreground">
-								Score - {state.startingScore}
-							</span>
-						</div>
-						<EditTooltip text="Edit Game Settings" step="step-2" methods={methods} />
-	</GameStateWrapper>
+				<GameStateWrapper>
+					<div>
+						Game Settings <br />
+						<span className="text-muted-foreground">
+							Score - {state.startingScore}
+						</span>
+					</div>
+					<EditTooltip
+						text="Edit Game Settings"
+						step="step-2"
+						methods={methods}
+					/>
+				</GameStateWrapper>
 			</div>
 		</div>
 	);
@@ -52,25 +64,32 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 
 function GameStateWrapper({ children }: { children: React.ReactNode }) {
 	return (
-							<div className="bg-card rounded-md border border-border w-full p-3 text-left flex flex-row items-center justify-between gap-2 group">
-
-								{children}
-							</div>
-	)
+		<div className="bg-card rounded-md border border-border w-full p-3 text-left flex flex-row items-center justify-between gap-2 group">
+			{children}
+		</div>
+	);
 }
 
-function EditTooltip({ text, step, methods }: { text: string, step: "step-1" | "step-2", methods: StepperMethods }) {
+function EditTooltip({
+	text,
+	step,
+	methods
+}: { text: string; step: "step-1" | "step-2"; methods: StepperMethods }) {
 	return (
-
-						<Tooltip>
-							<TooltipTrigger render={<Button 
-							onClick={() => methods.goTo(step)}
-							onKeyDown={() => methods.goTo(step)} variant={"ghost"} size={"icon"} />}>
-							<PencilIcon className="size-6" />
-							</TooltipTrigger>
-							<TooltipContent>
-								{text}
-							</TooltipContent>
-						</Tooltip>
-	)
+		<Tooltip>
+			<TooltipTrigger
+				render={
+					<Button
+						onClick={() => methods.goTo(step)}
+						onKeyDown={() => methods.goTo(step)}
+						variant={"ghost"}
+						size={"icon"}
+					/>
+				}
+			>
+				<PencilIcon className="size-6" />
+			</TooltipTrigger>
+			<TooltipContent>{text}</TooltipContent>
+		</Tooltip>
+	);
 }
