@@ -12,7 +12,16 @@ import {
 	AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -23,7 +32,14 @@ import {
 import { cn } from "@/lib/utils";
 import useGameStore from "@/stores/game-store";
 import type { Player } from "@/types/gameTypes";
-import { ClockCounterClockwiseIcon, CrownIcon, FunnelIcon, SlidersIcon, SortAscendingIcon, SortDescendingIcon } from "@phosphor-icons/react";
+import {
+	ClockCounterClockwiseIcon,
+	CrownIcon,
+	FunnelIcon,
+	SlidersIcon,
+	SortAscendingIcon,
+	SortDescendingIcon
+} from "@phosphor-icons/react";
 import { useState } from "react";
 
 export default function PlayerList() {
@@ -38,7 +54,7 @@ export default function PlayerList() {
 	return (
 		<div className="flex flex-col gap-2 justify-between w-full h-full rounded-md border border-border p-4">
 			<div className="flex flex-col relative">
-				<div className="absolute h-4 z-10 w-full top-0 left-0 bg-linear-to-b from-background to-transparent"/>
+				<div className="absolute h-4 z-10 w-full top-0 left-0 bg-linear-to-b from-background to-transparent" />
 
 				<ScrollArea className="max-h-[85dvh]">
 					<div className="h-2" />
@@ -55,34 +71,49 @@ export default function PlayerList() {
 
 					<div className="flex justify-between items-baseline pr-1.5 mt-4">
 						<p className="text-muted-foreground text-sm h-max">
-						{sort === "default" ? "By Added Order" : sort === "asc" ? "By Score Ascending" : "By Score Descending"}
+							{sort === "default"
+								? "By Added Order"
+								: sort === "asc"
+									? "By Score Ascending"
+									: "By Score Descending"}
 						</p>
 
 						<DropdownMenu>
-							<DropdownMenuTrigger render={<Button size="icon" variant="secondary"/>}>
-						<FunnelIcon />
-
+							<DropdownMenuTrigger
+								render={
+									<Button
+										size="icon"
+										variant="secondary"
+									/>
+								}
+							>
+								<FunnelIcon />
 							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end" className="w-56">
+							<DropdownMenuContent
+								align="end"
+								className="w-56"
+							>
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>Sort By</DropdownMenuLabel>
 
 									<DropdownMenuSeparator />
 
-								<DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
-									<DropdownMenuRadioItem value={"default"}>
-										<SlidersIcon /> Default
-									</DropdownMenuRadioItem>
+									<DropdownMenuRadioGroup
+										value={sort}
+										onValueChange={setSort}
+									>
+										<DropdownMenuRadioItem value={"default"}>
+											<SlidersIcon /> Default
+										</DropdownMenuRadioItem>
 
-									<DropdownMenuRadioItem value={"asc"}>
-										<SortAscendingIcon /> Score Ascending
-									</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value={"asc"}>
+											<SortAscendingIcon /> Score Ascending
+										</DropdownMenuRadioItem>
 
-									<DropdownMenuRadioItem value={"desc"}>
-										<SortDescendingIcon /> Score Descending
-									</DropdownMenuRadioItem>
-								</DropdownMenuRadioGroup>
-									
+										<DropdownMenuRadioItem value={"desc"}>
+											<SortDescendingIcon /> Score Descending
+										</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
 								</DropdownMenuGroup>
 							</DropdownMenuContent>
 						</DropdownMenu>
@@ -90,7 +121,13 @@ export default function PlayerList() {
 
 					<Separator className={"my-2"} />
 
-					{[...sort === "default" ? players : sort === "asc" ? playersByScore : [...playersByScore].reverse()]
+					{[
+						...(sort === "default"
+							? players
+							: sort === "asc"
+								? playersByScore
+								: [...playersByScore].reverse())
+					]
 						.filter((player) => player.id !== currentPlayer)
 						.map((player) => (
 							<PlayerCard
@@ -99,10 +136,10 @@ export default function PlayerList() {
 							/>
 						))}
 
-						<div className="h-2"  />
+					<div className="h-2" />
 				</ScrollArea>
 
-				<div className="absolute h-4 w-full z-10 bottom-0 left-0 bg-linear-to-b from-transparent to-background"/>
+				<div className="absolute h-4 w-full z-10 bottom-0 left-0 bg-linear-to-b from-transparent to-background" />
 			</div>
 
 			<AlertDialog
@@ -201,7 +238,7 @@ const PlayerCard = ({
 	const playersByScore = useGameStore((state) => state.playersByScore);
 
 	const top3Ids = playersByScore.slice(0, 3).map((player) => player.id);
-	const winner = player.score === 0
+	const winner = player.score === 0;
 
 	return (
 		<div
@@ -217,10 +254,14 @@ const PlayerCard = ({
 				<CrownIcon className="text-yellow-500 absolute -top-2 -left-2 -rotate-24 size-8" />
 			)}
 			{!current && !winner && top3Ids.indexOf(player.id) === 0 && (
-				<p className="absolute -top-2 -left-2 -rotate-24 text-yellow-500 text-xl">#1</p>
+				<p className="absolute -top-2 -left-2 -rotate-24 text-yellow-500 text-xl">
+					#1
+				</p>
 			)}
 			{!current && !winner && top3Ids.indexOf(player.id) === 1 && (
-				<p className="absolute -top-2 -left-2 -rotate-24 text-gray-500 text-lg">#2</p>
+				<p className="absolute -top-2 -left-2 -rotate-24 text-gray-500 text-lg">
+					#2
+				</p>
 			)}
 			{!current && !winner && top3Ids.indexOf(player.id) === 2 && (
 				<p className="absolute -top-2 -left-2 -rotate-24 text-amber-700">#3</p>
@@ -233,10 +274,15 @@ const PlayerCard = ({
 			</div>
 			<div>
 				<Tooltip>
-					<TooltipTrigger render={<Button
-							size={"icon"}
-							variant={"outline"} />}>
-							<ClockCounterClockwiseIcon />
+					<TooltipTrigger
+						render={
+							<Button
+								size={"icon"}
+								variant={"outline"}
+							/>
+						}
+					>
+						<ClockCounterClockwiseIcon />
 					</TooltipTrigger>
 					<TooltipContent>Show Dart History</TooltipContent>
 				</Tooltip>
