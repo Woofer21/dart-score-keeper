@@ -20,6 +20,7 @@ export interface Player {
 
 export interface GameState {
 	players: Player[];
+	playersByScore: Player[];
 	currentPlayer: string | null;
 	order: string[];
 	startingScore: number;

@@ -5,7 +5,8 @@ import {
 	Card,
 	CardContent,
 	CardFooter,
-	CardHeader
+	CardHeader,
+	CardTitle
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,7 +15,7 @@ import {
 	PopoverTrigger
 } from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
-import { Check, Edit, Palette, Plus, RefreshCcw, Trash } from "lucide-react";
+import { PenIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
 
 export default function AddPlayers() {
 	const players = useGameStore((state) => state.players);
@@ -27,7 +28,7 @@ export default function AddPlayers() {
 			<div className="flex flex-col gap-2">
 				<h2 className="text-2xl">Add Players</h2>
 				<p className="text-muted-foreground">
-					Add players to the game, and give them a name if you wish.
+					Add players to the game, and give them a memorable name!
 				</p>
 			</div>
 
@@ -35,20 +36,15 @@ export default function AddPlayers() {
 				{players.map((player) => (
 					<Card key={player.id}>
 						<CardHeader>
-							<h3>{player.name}</h3>
+							<CardTitle>{player.name}</CardTitle>
 						</CardHeader>
 
 						<CardContent className="flex flex-col gap-2 items-center" />
 
-						<CardFooter className="flex flex-row items-center justify-center gap-2 w-full">
+						<CardFooter className="flex flex-row items-center justify-center gap-2">
 							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant={"outline"}
-										size={"icon"}
-									>
-										<Edit />
-									</Button>
+								<PopoverTrigger render={<Button variant={"outline"} />}>
+									<PenIcon /> Name
 								</PopoverTrigger>
 								<PopoverContent className="space-y-2">
 									<p>Player Name</p>
@@ -57,29 +53,34 @@ export default function AddPlayers() {
 										onChange={(e) =>
 											updatePlayerName(player.id, e.target.value)
 										}
+										onFocus={(e) => e.target.select()}
 									/>
 								</PopoverContent>
 							</Popover>
 
 							<Button
 								variant={"destructive"}
-								size={"icon"}
 								onClick={() => removePlayer(player.id)}
 							>
-								<Trash />
+								<TrashIcon /> Remove
 							</Button>
 						</CardFooter>
 					</Card>
 				))}
 
 				<Card
-					className="cursor-pointer"
+					className="cursor-pointer focus-visible:ring-ring focus-visible:ring-[3px] outline-none transition-all"
 					onClick={() => addPlayer(`Player ${players.length + 1}`)}
+					onKeyDown={(e) =>
+						e.key === "Enter" ? addPlayer(`Player ${players.length + 1}`) : null
+					}
+					tabIndex={0}
+					aria-roledescription="button"
 				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<Plus className="size-14" />
-						<p>Add Player</p>
+					<CardContent className="mx-auto">
+						<PlusIcon className="size-12" />
 					</CardContent>
+					<CardFooter className="justify-center">Add Player</CardFooter>
 				</Card>
 			</div>
 		</div>

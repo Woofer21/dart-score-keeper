@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
 	Popover,
@@ -9,12 +9,18 @@ import {
 	PopoverTrigger
 } from "@/components/ui/popover";
 import useGameStore from "@/stores/game-store";
+import {
+	ClockCountdownIcon,
+	HourglassHighIcon,
+	HourglassLowIcon,
+	HourglassMediumIcon,
+	type IconProps
+} from "@phosphor-icons/react";
 import clsx from "clsx";
-import { Clock2, Clock3, Clock4, ClockFading } from "lucide-react";
-import { useState } from "react";
+import { type ForwardRefExoticComponent, useState } from "react";
 
 export default function GameSettings() {
-	const [customScore, setCustomScore] = useState(501);
+	const [customScore, setCustomScore] = useState(601);
 	const startingScore = useGameStore((state) => state.startingScore);
 	const initGameScore = useGameStore((state) => state.initGameScore);
 
@@ -22,68 +28,64 @@ export default function GameSettings() {
 		<div className="space-y-2">
 			<div className="flex flex-col gap-2">
 				<h2 className="text-2xl">Game Settings</h2>
-				<p className="text-muted-foreground">Configure your game settings</p>
+				<p className="text-muted-foreground">
+					Configure the settings for your game
+				</p>
 			</div>
 
 			<h3>Starting Score</h3>
 			<div className="grid grid-cols-3 gap-2">
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 101
-					})}
-					onClick={() => initGameScore(101)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock2 className="size-14" />
-						<p>Shorter - 101</p>
-					</CardContent>
-				</Card>
+				<GameLengthCard
+					value={101}
+					label="Shorter"
+					startingScore={startingScore}
+					Icon={HourglassLowIcon}
+				/>
 
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 201
-					})}
-					onClick={() => initGameScore(201)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock3 className="size-14" />
-						<p>Medium - 201</p>
-					</CardContent>
-				</Card>
+				<GameLengthCard
+					value={301}
+					label="Medium"
+					startingScore={startingScore}
+					Icon={HourglassMediumIcon}
+				/>
 
-				<Card
-					className={clsx("cursor-pointer", {
-						"border-green-500 bg-green-500/10": startingScore === 301
-					})}
-					onClick={() => initGameScore(301)}
-				>
-					<CardContent className="flex flex-col gap-2 items-center">
-						<Clock4 className="size-14" />
-						<p>Longer - 301</p>
-					</CardContent>
-				</Card>
+				<GameLengthCard
+					value={501}
+					label="Longer"
+					startingScore={startingScore}
+					Icon={HourglassHighIcon}
+				/>
 
 				<Popover>
-					<PopoverTrigger asChild>
+					<PopoverTrigger className="group outline-none">
 						<Card
-							className={clsx("cursor-pointer", {
-								"border-green-500 bg-green-500/10":
-									startingScore !== 301 &&
-									startingScore !== 201 &&
-									startingScore !== 101
-							})}
+							className={clsx(
+								"cursor-pointer group-focus-visible:ring-ring group-focus-visible:ring-4 transition-all",
+								{
+									"outline-primary outline bg-primary/10":
+										startingScore !== 501 &&
+										startingScore !== 301 &&
+										startingScore !== 101,
+
+									"group-focus-visible:outline-none group-focus-visible:ring-[3px]":
+										startingScore === 501 ||
+										startingScore === 301 ||
+										startingScore === 101
+								}
+							)}
 						>
-							<CardContent className="flex flex-col gap-2 items-center">
-								<ClockFading className="size-14" />
-								<p>
-									Custom
-									{startingScore === 301 ||
-									startingScore === 201 ||
-									startingScore === 101
-										? null
-										: ` - ${startingScore}`}
-								</p>
+							<CardContent className="mx-auto">
+								<ClockCountdownIcon className="size-14" />
 							</CardContent>
+
+							<CardFooter className="justify-center">
+								Custom
+								{startingScore === 501 ||
+								startingScore === 301 ||
+								startingScore === 101
+									? null
+									: ` - ${startingScore}`}
+							</CardFooter>
 						</Card>
 					</PopoverTrigger>
 					<PopoverContent className="space-y-2">
@@ -92,6 +94,7 @@ export default function GameSettings() {
 							value={customScore}
 							onChange={(e) => setCustomScore(Number(e.target.value))}
 							type="number"
+							onFocus={(e) => e.target.select()}
 						/>
 						<Button
 							variant={"outline"}
@@ -103,5 +106,42 @@ export default function GameSettings() {
 				</Popover>
 			</div>
 		</div>
+	);
+}
+
+function GameLengthCard({
+	value,
+	label,
+	startingScore,
+	Icon
+}: {
+	value: number;
+	label: string;
+	startingScore: number;
+	Icon: ForwardRefExoticComponent<IconProps>;
+}) {
+	const initGameScore = useGameStore((state) => state.initGameScore);
+
+	return (
+		<Card
+			className={clsx(
+				"cursor-pointer focus-visible:ring-ring focus-visible:ring-4 transition-all",
+				{
+					"outline-primary outline bg-primary/10": startingScore === value,
+					"outline-none focus-visible:ring-[3px]": startingScore !== value
+				}
+			)}
+			onClick={() => initGameScore(value)}
+			onKeyDown={(e) => (e.key === "Enter" ? initGameScore(value) : null)}
+			tabIndex={0}
+			aria-roledescription="button"
+		>
+			<CardContent className="mx-auto">
+				<Icon className="size-12" />
+			</CardContent>
+			<CardFooter className="justify-center">
+				{label} - {value}
+			</CardFooter>
+		</Card>
 	);
 }

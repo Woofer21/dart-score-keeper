@@ -1,14 +1,14 @@
 "use client";
 
-import { Card, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger
-} from "@/components/ui/collapsible";
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
+} from "@/components/ui/tooltip";
 import useGameStore from "@/stores/game-store";
+import { PencilIcon } from "@phosphor-icons/react";
 import type { Stepper } from "@stepperize/react";
-import { ChevronDown, Edit } from "lucide-react";
 
 export type StepperMethods = Stepper<
 	[
@@ -31,55 +31,65 @@ export default function StartGame({ methods }: { methods: StepperMethods }) {
 			</div>
 
 			<div className="space-y-2">
-				<Collapsible className="bg-card rounded-md border border-border ">
-					<CollapsibleTrigger className="w-full p-3 text-left flex flex-row items-center justify-between gap-2 group cursor-pointer">
-						<div>
-							{state.players.length} Players <br />
-							<span className="text-muted-foreground group-data-[state=open]:hidden">
-								{state.players.map((player) => player.name).join(", ")}
-							</span>
-						</div>
-						<div className="flex flex-row items-center gap-2">
-							<div
-								className="p-2 rounded-md hover:bg-muted/50 transition-all cursor-pointer"
-								onClick={() => methods.goTo("step-1")}
-								onKeyDown={() => methods.goTo("step-1")}
-							>
-								<Edit className="size-6" />
-							</div>
-							<ChevronDown className="size-8 group-data-[state=open]:rotate-180 transition-all" />
-						</div>
-					</CollapsibleTrigger>
-					<CollapsibleContent className="flex flex-row gap-2 p-2">
-						{state.players.map((player) => (
-							<Card
-								className="px-3"
-								key={player.id}
-							>
-								<CardTitle>{player.name}</CardTitle>
-							</Card>
-						))}
-					</CollapsibleContent>
-				</Collapsible>
-
-				<Collapsible className="bg-card rounded-md border border-border">
-					<CollapsibleTrigger className="w-full p-3 text-left flex flex-row items-center justify-between gap-2 group">
-						<div>
-							Game Settings <br />
-							<span className="text-muted-foreground">
-								Score - {state.startingScore},
-							</span>
-						</div>
-						<div
-							className="p-2 rounded-md hover:bg-muted/50 transition-all cursor-pointer"
-							onClick={() => methods.goTo("step-2")}
-							onKeyDown={() => methods.goTo("step-2")}
-						>
-							<Edit className="size-6" />
-						</div>
-					</CollapsibleTrigger>
-				</Collapsible>
+				<GameStateWrapper>
+					<div>
+						{state.players.length} Players <br />
+						<span className="text-muted-foreground group-data-[state=open]:hidden">
+							{state.players.map((player) => player.name).join(", ")}
+						</span>
+					</div>
+					<EditTooltip
+						text="Edit Players"
+						step="step-1"
+						methods={methods}
+					/>
+				</GameStateWrapper>
+				<GameStateWrapper>
+					<div>
+						Game Settings <br />
+						<span className="text-muted-foreground">
+							Score - {state.startingScore}
+						</span>
+					</div>
+					<EditTooltip
+						text="Edit Game Settings"
+						step="step-2"
+						methods={methods}
+					/>
+				</GameStateWrapper>
 			</div>
 		</div>
+	);
+}
+
+function GameStateWrapper({ children }: { children: React.ReactNode }) {
+	return (
+		<div className="bg-card rounded-md border border-border w-full p-3 text-left flex flex-row items-center justify-between gap-2 group">
+			{children}
+		</div>
+	);
+}
+
+function EditTooltip({
+	text,
+	step,
+	methods
+}: { text: string; step: "step-1" | "step-2"; methods: StepperMethods }) {
+	return (
+		<Tooltip>
+			<TooltipTrigger
+				render={
+					<Button
+						onClick={() => methods.goTo(step)}
+						onKeyDown={() => methods.goTo(step)}
+						variant={"ghost"}
+						size={"icon"}
+					/>
+				}
+			>
+				<PencilIcon className="size-6" />
+			</TooltipTrigger>
+			<TooltipContent>{text}</TooltipContent>
+		</Tooltip>
 	);
 }
