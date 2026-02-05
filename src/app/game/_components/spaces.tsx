@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import useGameStore from "@/stores/game-store";
-import { ArrowDownRightIcon, TargetIcon } from "@phosphor-icons/react";
+import { ArrowUDownLeftIcon, TargetIcon } from "@phosphor-icons/react";
 import { ProhibitIcon } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -36,8 +36,6 @@ export default function Spaces() {
 		scores: []
 	});
 
-	console.log(gameState);
-
 	const enterRound = useCallback(() => {
 		const newScores = [...round.scores, { score: selected, multiplier }];
 		const newTotalScore = round.totalScore + selected * multiplier;
@@ -50,8 +48,6 @@ export default function Spaces() {
 				totalScore: newTotalScore,
 				bust: false
 			});
-
-			console.log(order, currentPlayer.id);
 
 			setNextPlayer();
 			updateOrder([...order].filter((id) => id !== currentPlayer.id));
@@ -328,7 +324,7 @@ export default function Spaces() {
 							disabled={selected === -1}
 							onClick={enterRound}
 						>
-							<ArrowDownRightIcon />
+							<ArrowUDownLeftIcon />
 						</Button>
 					</div>
 				</div>

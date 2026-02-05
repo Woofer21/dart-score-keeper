@@ -1,9 +1,10 @@
-import { create } from "zustand";
 import type { GameState, GameStore, Round } from "@/types/gameTypes";
 import { v4 as uuid } from "uuid";
+import { create } from "zustand";
 
 const initialState: GameState = {
 	players: [],
+	playersByScore: [],
 	currentPlayer: null,
 	order: [],
 	startingScore: 301,
@@ -32,15 +33,14 @@ const useGameStore = create<GameStore>((set) => ({
 		set(() => ({ currentPlayer: playerId })),
 	setNextPlayer: () => {
 		set((state) => {
-			const indx = state.order.indexOf(state.currentPlayer ?? "");
+			const index = state.order.indexOf(state.currentPlayer ?? "");
 
-			if (indx === -1) {
+			if (index === -1) {
 				return { currentPlayer: null };
 			}
 
 			return {
-				currentPlayer:
-					state.order[indx + 1 === state.order.length ? 0 : indx + 1]
+				currentPlayer: state.order[(index + 1) % state.order.length]
 			};
 		});
 	},
@@ -57,9 +57,9 @@ const useGameStore = create<GameStore>((set) => ({
 			order: [...state.players.map((player) => player.id)]
 		})),
 	updateOrder: (newOrder: string[]) => set((state) => ({ order: newOrder })),
-	addRound: (playerId: string, round: Round) =>
-		set((state) => ({
-			players: state.players.map((player) =>
+	addRound: (playerId: string, round: Round) => {
+		set((state) => {
+			const players = state.players.map((player) =>
 				player.id === playerId
 					? {
 							...player,
@@ -69,8 +69,14 @@ const useGameStore = create<GameStore>((set) => ({
 							rounds: [...player.rounds, round]
 						}
 					: player
-			)
-		})),
+			);
+
+			return {
+				players: players,
+				playersByScore: [...players].sort((a, b) => a.score - b.score)
+			};
+		});
+	},
 
 	endGame: () => set(() => ({ ...initialState }))
 }));

@@ -12,7 +12,9 @@ import {
 	AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
 	Tooltip,
 	TooltipContent,
@@ -21,17 +23,17 @@ import {
 import { cn } from "@/lib/utils";
 import useGameStore from "@/stores/game-store";
 import type { Player } from "@/types/gameTypes";
-import { ClockCounterClockwiseIcon, CrownIcon } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
+import { ClockCounterClockwiseIcon, CrownIcon, FunnelIcon, SlidersIcon, SortAscendingIcon, SortDescendingIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 
 export default function PlayerList() {
-	const router = useRouter();
 	const players = useGameStore((state) => state.players);
+	const playersByScore = useGameStore((state) => state.playersByScore);
 	const currentPlayer = useGameStore((state) => state.currentPlayer);
 	const endGame = useGameStore((state) => state.endGame);
 
 	const [bypass, setBypass] = useState(false);
+	const [sort, setSort] = useState<"default" | "asc" | "desc">("default");
 
 	return (
 		<div className="flex flex-col gap-2 justify-between w-full h-full rounded-md border border-border p-4">
@@ -40,6 +42,7 @@ export default function PlayerList() {
 
 				<ScrollArea className="max-h-[85dvh]">
 					<div className="h-2" />
+
 					{players
 						.filter((player) => player.id === currentPlayer)
 						.map((player) => (
@@ -50,7 +53,44 @@ export default function PlayerList() {
 							/>
 						))}
 
-					{players
+					<div className="flex justify-between items-baseline pr-1.5 mt-4">
+						<p className="text-muted-foreground text-sm h-max">
+						{sort === "default" ? "By Added Order" : sort === "asc" ? "By Score Ascending" : "By Score Descending"}
+						</p>
+
+						<DropdownMenu>
+							<DropdownMenuTrigger render={<Button size="icon" variant="secondary"/>}>
+						<FunnelIcon />
+
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end" className="w-56">
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>Sort By</DropdownMenuLabel>
+
+									<DropdownMenuSeparator />
+
+								<DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+									<DropdownMenuRadioItem value={"default"}>
+										<SlidersIcon /> Default
+									</DropdownMenuRadioItem>
+
+									<DropdownMenuRadioItem value={"asc"}>
+										<SortAscendingIcon /> Score Ascending
+									</DropdownMenuRadioItem>
+
+									<DropdownMenuRadioItem value={"desc"}>
+										<SortDescendingIcon /> Score Descending
+									</DropdownMenuRadioItem>
+								</DropdownMenuRadioGroup>
+									
+								</DropdownMenuGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
+
+					<Separator className={"my-2"} />
+
+					{[...sort === "default" ? players : sort === "asc" ? playersByScore : [...playersByScore].reverse()]
 						.filter((player) => player.id !== currentPlayer)
 						.map((player) => (
 							<PlayerCard
@@ -59,7 +99,7 @@ export default function PlayerList() {
 							/>
 						))}
 
-						<br  />
+						<div className="h-2"  />
 				</ScrollArea>
 
 				<div className="absolute h-4 w-full z-10 bottom-0 left-0 bg-linear-to-b from-transparent to-background"/>
@@ -82,7 +122,7 @@ export default function PlayerList() {
 					</AlertDialogHeader>
 
 					<ScrollArea className="max-h-64">
-						{players
+						{[...players]
 							.sort((a, b) => a.score - b.score)
 							.map((player) => (
 								<div
@@ -127,8 +167,8 @@ export default function PlayerList() {
 			)}
 			{!bypass && !(players.filter((p) => p.score === 0).length > 0) && (
 				<AlertDialog>
-					<AlertDialogTrigger>
-						<Button variant={"destructive"}>End Game Early</Button>
+					<AlertDialogTrigger render={<Button variant={"destructive"} />}>
+						End Game Early
 					</AlertDialogTrigger>
 					<AlertDialogContent size="sm">
 						<AlertDialogHeader>
@@ -158,18 +198,32 @@ const PlayerCard = ({
 	current = false,
 	...props
 }: { player: Player; current?: boolean } & React.ComponentProps<"div">) => {
+	const playersByScore = useGameStore((state) => state.playersByScore);
+
+	const top3Ids = playersByScore.slice(0, 3).map((player) => player.id);
+	const winner = player.score === 0
+
 	return (
 		<div
 			key={player.id}
 			className={cn(
 				`bg-card rounded-md p-4 flex flex-row gap-2 items-center border border-border justify-between relative ${
 					current ? "border-primary" : "scale-95"
-				} ${player.score === 0 ? "border-yellow-500 shadow-lg shadow-yellow-500/50" : ""}`
+				} ${winner ? "border-yellow-500 shadow-lg shadow-yellow-500/50" : ""}`
 			)}
 			{...props}
 		>
-			{player.score === 0 && (
-				<CrownIcon className="text-yellow-500 absolute -top-2 -left-2 -rotate-24" />
+			{winner && (
+				<CrownIcon className="text-yellow-500 absolute -top-2 -left-2 -rotate-24 size-8" />
+			)}
+			{!current && !winner && top3Ids.indexOf(player.id) === 0 && (
+				<p className="absolute -top-2 -left-2 -rotate-24 text-yellow-500 text-xl">#1</p>
+			)}
+			{!current && !winner && top3Ids.indexOf(player.id) === 1 && (
+				<p className="absolute -top-2 -left-2 -rotate-24 text-gray-500 text-lg">#2</p>
+			)}
+			{!current && !winner && top3Ids.indexOf(player.id) === 2 && (
+				<p className="absolute -top-2 -left-2 -rotate-24 text-amber-700">#3</p>
 			)}
 			<div>
 				<p>{player.name}</p>
@@ -179,13 +233,10 @@ const PlayerCard = ({
 			</div>
 			<div>
 				<Tooltip>
-					<TooltipTrigger>
-						<Button
+					<TooltipTrigger render={<Button
 							size={"icon"}
-							variant={"outline"}
-						>
+							variant={"outline"} />}>
 							<ClockCounterClockwiseIcon />
-						</Button>
 					</TooltipTrigger>
 					<TooltipContent>Show Dart History</TooltipContent>
 				</Tooltip>
